@@ -6,44 +6,45 @@ import { Brain, Zap, Code, MessageSquare, Database, Sparkles, ArrowRight } from 
 const AIFeaturesSection = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
-  const features = [
-    {
-      icon: Brain,
-      title: "Large Language Models",
-      description: "Master cutting-edge LLMs including GPT, BERT, and T5 architectures",
-      image: '/src/assets/LLM.png',
+   const features = [
+  {
+    icon: Brain,
+    title: "Large Language Models",
+    description: "Master cutting-edge LLMs including GPT, BERT, and T5 architectures",
+    image: '/assets/LLM.png',  // ✅ updated path
+  },
+  {
+    icon: Zap,
+    title: "Transformer Architecture",
+    description: "Deep dive into attention mechanisms and transformer implementations",
+    image: '/assets/Transformer Architecture.png',
+  },
+  {
+    icon: Code,
+    title: "Fine-tuning & Optimization",
+    description: "Learn model optimization, quantization, and deployment strategies",
+    image: '/assets/Fine-tuning & Optimization.png',
+  },
+  {
+    icon: MessageSquare,
+    title: "Prompt Engineering",
+    description: "Develop expertise in crafting effective prompts for various use cases",
+    image: '/assets/Prompt Engineering.png',
+  },
+  {
+    icon: Database,
+    title: "Vector Databases",
+    description: "Work with embeddings, semantic search, and RAG implementations",
+    image: '/assets/Vector Databases.png',
+  },
+  {
+    icon: Sparkles,
+    title: "Generative AI Applications",
+    description: "Build real-world applications with LLMs and generative models",
+    image: '/assets/Generative AI Applications.png',
+  }
 
-    },
-    {
-      icon: Zap,
-      title: "Transformer Architecture",
-      description: "Deep dive into attention mechanisms and transformer implementations",
-      image: '/src/assets/Transformer Architecture.png',
-    },
-    {
-      icon: Code,
-      title: "Fine-tuning & Optimization",
-      description: "Learn model optimization, quantization, and deployment strategies",
-      image: '/src/assets/Fine-tuning & Optimization.png',
-    },
-    {
-      icon: MessageSquare,
-      title: "Prompt Engineering",
-      description: "Develop expertise in crafting effective prompts for various use cases",
-      image: '/src/assets/Prompt Engineering.png',
-    },
-    {
-      icon: Database,
-      title: "Vector Databases",
-      description: "Work with embeddings, semantic search, and RAG implementations",
-      image: '/src/assets/Vector Databases.png',
-    },
-    {
-      icon: Sparkles,
-      title: "Generative AI Applications",
-      description: "Build real-world applications with LLMs and generative models",
-      image: '/src/assets/Generative AI Applications.png',
-    }
+
   ];
 
   return (
