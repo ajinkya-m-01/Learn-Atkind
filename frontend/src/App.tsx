@@ -13,7 +13,6 @@ import InstructorsPage from "./pages/Instructors";
 import ContactPage from "./pages/Contact";
 import LoginPage from "./pages/Login";
 import SignUpPage from "./pages/SignUp";
-import AIFeaturesSection from "@/components/AIFeaturesSection";
 import { DocumentationPage, BlogPage, CaseStudiesPage, CommunityPage } from "./pages/resources";
 import { AboutPage, CareersPage, PressKitPage, PartnersPage } from "./pages/company";
 import { HelpCenterPage, PrivacyPolicyPage, TermsOfServicePage } from "./pages/legal";
@@ -24,11 +23,24 @@ const App = () => {
   const [backendStatus, setBackendStatus] = useState<string>("Checking backend...");
 
   useEffect(() => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    if (!apiUrl) {
+      setBackendStatus("⚠️ Backend URL not configured");
+      return;
+    }
+
     // 👇 Check backend connection on load
-    fetch(`${import.meta.env.VITE_API_URL}/api/hello`)
-      .then((res) => res.json())
-      .then((data) => setBackendStatus(`✅ ${data.message}`))
-      .catch(() => setBackendStatus("❌ Backend not reachable"));
+    fetch(`${apiUrl}/api/hello`)
+      .then(async (res) => {
+        if (!res.ok) throw new Error("Backend not responding properly");
+        const data = await res.json();
+        setBackendStatus(`✅ ${data.message}`);
+      })
+      .catch((err) => {
+        console.error("Backend connection failed:", err);
+        setBackendStatus("❌ Backend not reachable");
+      });
   }, []);
 
   return (
@@ -38,6 +50,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Main Pages */}
             <Route path="/" element={<Index />} />
             <Route path="/courses" element={<CoursesPage />} />
             <Route path="/courses/:courseId" element={<CourseDetailPage />} />
@@ -64,12 +77,12 @@ const App = () => {
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsOfServicePage />} />
 
-            {/* Catch-all route for 404 */}
+            {/* 404 Page */}
             <Route path="*" element={<NotFound />} />
           </Routes>
 
           {/* 👇 Backend Connection Status Display */}
-          <div className="fixed bottom-4 right-4 bg-gray-800 text-white text-sm px-4 py-2 rounded-xl shadow-lg">
+          <div className="fixed bottom-4 right-4 bg-gray-800 text-white text-sm px-4 py-2 rounded-xl shadow-lg z-50">
             {backendStatus}
           </div>
         </BrowserRouter>
