@@ -1,73 +1,61 @@
-# Welcome to your Lovable project
+# 🌐 Learn Atkind
 
-## Project info
+An AI-powered learning and training platform designed to help users explore Artificial Intelligence, Machine Learning, and other advanced technologies with an interactive and visually appealing web experience.
 
-**URL**: https://lovable.dev/projects/70a55665-7668-4b72-9ce7-5d12e851ebee
+---
 
-## How can I edit this code?
+## 🚀 Project Info
 
-There are several ways of editing your application.
+**Repository:** [Learn-Atkind](https://github.com/ajinkya-m-01/Learn-Atkind)  
+**Developed By:** [Ajinkya Mhetre](https://github.com/ajinkya-m-01)  
+**Frontend:** React + TypeScript + Vite  
+**Backend:** Node.js + Express.js  
+**UI Library:** shadcn/ui + Tailwind CSS  
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/70a55665-7668-4b72-9ce7-5d12e851ebee) and start prompting.
+## 🧠 About the Project
 
-Changes made via Lovable will be committed automatically to this repo.
+**Learn Atkind** is a full-stack educational web application that provides:
+- AI-based course recommendations 💡  
+- Secure authentication system 🔐  
+- Instructor & course management 👨‍🏫  
+- Modern UI and responsive design 📱  
+- Real-time learning insights 📊  
 
-**Use your preferred IDE**
+This platform aims to simplify learning for students and professionals interested in Artificial Intelligence.
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🛠️ Tech Stack
 
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
+### Frontend
+- React + TypeScript
 - Vite
-- TypeScript
-- React
-- shadcn-ui
 - Tailwind CSS
+- shadcn/ui Components
 
-## How can I deploy this project?
+### Backend
+- Node.js
+- Express.js
+- MySQL (via Sequelize or native SQL)
+- JWT Authentication
 
-Simply open [Lovable](https://lovable.dev/projects/70a55665-7668-4b72-9ce7-5d12e851ebee) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
+## ⚙️ Installation & Setup
 
-Yes, you can!
+To run this project locally, ensure you have **Node.js** and **npm** installed.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```bash
+# 1️⃣ Clone the repository
+git clone https://github.com/ajinkya-m-01/Learn-Atkind.git
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+# 2️⃣ Navigate to the project folder
+cd Learn-Atkind
+
+# 3️⃣ Install dependencies
+npm install
+
+# 4️⃣ Start the development server
+npm run dev
