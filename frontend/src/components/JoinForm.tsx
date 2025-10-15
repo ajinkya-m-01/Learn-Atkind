@@ -17,8 +17,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { Loader2, CheckCircle2, User, Phone, Mail, MapPin, BookOpen } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, CheckCircle2, User, Phone, Mail, MapPin, BookOpen, AlertCircle } from "lucide-react";
 
 interface JoinFormProps {
   children: React.ReactNode;
@@ -76,7 +76,7 @@ const JoinForm = ({ children }: JoinFormProps) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const { toast } = useToast();
+  const [errorMessage, setErrorMessage] = useState('');
   
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -118,10 +118,12 @@ const JoinForm = ({ children }: JoinFormProps) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
     setFormData(prev => ({ ...prev, [id]: value }));
+    setErrorMessage('');
   };
 
   const handleSelectChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+    setErrorMessage('');
   };
 
   const resetForm = () => {
@@ -137,65 +139,71 @@ const JoinForm = ({ children }: JoinFormProps) => {
     setDistricts([]);
     setCities([]);
     setIsSuccess(false);
+    setErrorMessage('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage('');
     
     if (!formData.name || !formData.mobile || !formData.email || 
         !formData.state || !formData.district || !formData.city || !formData.course) {
-      toast({
-        title: "Missing Information",
-        description: "Please fill in all required fields.",
-        variant: "destructive",
-      });
+      setErrorMessage("Please fill in all required fields.");
       return;
     }
 
     const mobileRegex = /^[0-9]{10}$/;
     if (!mobileRegex.test(formData.mobile)) {
-      toast({
-        title: "Invalid Mobile Number",
-        description: "Please enter a valid 10-digit mobile number.",
-        variant: "destructive",
-      });
+      setErrorMessage("Please enter a valid 10-digit mobile number.");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Invalid Email",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
+      setErrorMessage("Please enter a valid email address.");
       return;
     }
 
     setIsLoading(true);
 
+    // Google Sheets integration
+    const scriptURL = "https://script.google.com/macros/s/AKfycbz77Yvwtx5_C2BHz4gqRo3Vuh1ZYZxeevzW-GZOJu1Qv7CiFCKfV_PzxVkc9DxlfA95CA/exec";
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Prepare form data for Google Sheets as URLSearchParams
+      const submissionData = new URLSearchParams();
+      submissionData.append('name', formData.name);
+      submissionData.append('mobile', formData.mobile);
+      submissionData.append('email', formData.email);
+      submissionData.append('state', formData.state);
+      submissionData.append('district', formData.district);
+      submissionData.append('city', formData.city);
+      submissionData.append('course', formData.course);
+
+      console.log('Submitting data:', Object.fromEntries(submissionData));
+
+      await fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors",
+        body: submissionData,
+      });
+
+      console.log('Form submitted successfully to Google Sheets');
+      
+      // With no-cors mode, the request is sent but we can't read the response
+      // This is normal behavior for Google Apps Script
       console.log('Inquiry Submitted:', formData);
       setIsSuccess(true);
-      
-      toast({
-        title: "Inquiry Submitted! 🎉",
-        description: "We'll contact you within 24 hours.",
-      });
 
       setTimeout(() => {
         setOpen(false);
         resetForm();
-      }, 2000);
+      }, 2500);
 
     } catch (error) {
-      toast({
-        title: "Submission Failed",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      // Even with no-cors, if there's a network error it will be caught here
       console.error('Form submission error:', error);
+      setErrorMessage("Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -223,7 +231,7 @@ const JoinForm = ({ children }: JoinFormProps) => {
         
         {isSuccess ? (
           <div className="flex flex-col items-center justify-center py-12 space-y-4">
-            <div className="w-20 h-20 rounded-full bg-black flex items-center justify-center animate-scale-in">
+            <div className="w-20 h-20 rounded-full bg-black flex items-center justify-center">
               <CheckCircle2 className="w-10 h-10 text-white" />
             </div>
             <h3 className="text-2xl font-bold text-black">Success!</h3>
@@ -234,6 +242,13 @@ const JoinForm = ({ children }: JoinFormProps) => {
           </div>
         ) : (
           <div className="space-y-4 mt-4">
+            {errorMessage && (
+              <Alert variant="destructive" className="bg-red-50 border-red-200">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
+
             {/* Name */}
             <div className="space-y-2">
               <Label htmlFor="name" className="flex items-center gap-2 text-black">
